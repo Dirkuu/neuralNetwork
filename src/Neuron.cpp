@@ -12,18 +12,7 @@ Neuron::Neuron(double value, double weight)
     else                        this->inputs.push_back(new Input(value));
 }
 
-Neuron::Neuron(vector<double> inputsValues, Input *bias)
-{
-    if (bias != nullptr)
-    {
-        this->bias = bias;
-    }
-
-    for (int i = 0; i < inputsValues.size(); ++i)
-    {
-        this->inputs.push_back(new Input(inputsValues.at(i)));
-    }
-}
+Neuron::Neuron(vector<Input*> inputs, Input *bias): bias(bias), inputs(inputs) {}
 
 Neuron::~Neuron()
 {

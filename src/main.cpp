@@ -12,16 +12,16 @@ int main ()
 {
     srand(time(NULL));
     //Input *input = new Input(5);
-    vector<double> inputsValues;
-    inputsValues.push_back(1.0);
-    inputsValues.push_back(1.0);
-    inputsValues.push_back(1.0);
-    inputsValues.push_back(5.0);
+    vector<Input*> inputs;
+    inputs.push_back(new Input(1.0));
+    inputs.push_back(new Input(1.0));
+    inputs.push_back(new Input(1.0));
+    inputs.push_back(new Input(5.0));
 
-    Neuron* neuron = new Neuron(inputsValues);
+    Neuron* neuron = new Neuron(inputs);
     //Network *network = new Network();
 
-    cout << neuron->sum();
+    cout << "One neuron with random weights: " << neuron->sum();
     delete neuron;
 
     return 0;
