@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 #lista plików źródłowych
 set(SOURCE_FILES
-        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp)
+        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp include/templateForeachDeleteFunction.h)
 
 add_library(Library ${SOURCE_FILES})
 set_target_properties(Library PROPERTIES LINKER_LANGUAGE CXX)

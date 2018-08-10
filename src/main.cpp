@@ -18,11 +18,17 @@ int main ()
     inputs.push_back(new Input(1.0));
     inputs.push_back(new Input(5.0));
 
-    Neuron* neuron = new Neuron(inputs);
+    vector<Neuron*> neurons;
+    neurons.push_back(new Neuron(inputs));
+    neurons.push_back(new Neuron(inputs));
+
+    Layer* layer = new Layer(neurons);
+
+
     //Network *network = new Network();
 
-    cout << "One neuron with random weights: " << neuron->sum();
-    delete neuron;
+    cout << "One neuron with random weights: ";// << neuron->sum();
+    delete layer;
 
     return 0;
 }

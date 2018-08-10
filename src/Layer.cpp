@@ -2,13 +2,13 @@
 // Created by Wojtek on 2018-07-10.
 //
 
-#include <Neuron.h>
 #include <Layer.h>
-#include <string>
-#include <iostream>
 
-Layer::Layer(vector<Neuron*> neurons): neurons(neurons)
+Layer::Layer(vector<Neuron*> neurons): neurons(neurons) {}
+
+Layer::~Layer()
 {
+    del(neurons);
 }
 
 void Layer::addNeuron(Neuron *neuron)

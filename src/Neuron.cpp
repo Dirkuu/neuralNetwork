@@ -18,10 +18,7 @@ Neuron::~Neuron()
 {
     if (this->bias != nullptr)          delete this->bias;
 
-    for (int i = 0; i < this->inputs.size(); ++i)
-    {
-        delete this->inputs.at(i);
-    }
+    del(inputs);
 }
 
 //void Neuron::addInput(Input *input)

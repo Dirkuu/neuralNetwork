@@ -3,11 +3,14 @@
 //
 
 #include <Network.h>
-#include <Layer.h>
-#include <iostream>
 
-Network::Network(Layer* dataLayer, vector<Layer*> layers): dataLayer(dataLayer), layers(layers)
+Network::Network(Layer* dataLayer, vector<Layer*> layers): dataLayer(dataLayer), layers(layers) {}
+
+Network::~Network()
 {
+    delete dataLayer;
+
+    del(layers);
 }
 
 string Network::toString()

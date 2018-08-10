@@ -8,6 +8,7 @@
 using namespace std;
 
 #include "Neuron.h"
+#include "templateForeachDeleteFunction.h"
 #include <vector>
 
 class Layer {
@@ -15,6 +16,7 @@ private:
     vector<Neuron *> neurons;
 public:
     Layer(vector<Neuron*> neurons = vector<Neuron*>());
+    ~Layer();
     void addNeuron(Neuron *neuron);
 
     Neuron* getNeuron(int index);

@@ -8,6 +8,7 @@
 using namespace std;
 
 #include "Input.h"
+#include "templateForeachDeleteFunction.h"
 #include <vector>
 #include <string>
 
