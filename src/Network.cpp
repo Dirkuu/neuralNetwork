@@ -6,12 +6,8 @@
 #include <Layer.h>
 #include <iostream>
 
-Network::Network(vector<double> inputsValues, int numberOfLayers): dataLayer(new Layer(inputsValues))
+Network::Network(Layer* dataLayer, vector<Layer*> layers): dataLayer(dataLayer), layers(layers)
 {
-    for (int i = 0; i < numberOfLayers; ++i)
-    {
-        this->layers.push_back(new Layer(inputsValues));
-    }
 }
 
 string Network::toString()

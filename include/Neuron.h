@@ -16,7 +16,7 @@ private:
     Input* bias;
     vector<Input *> inputs;
 public:
-    Neuron(double value, double weight = NULL);
+    Neuron(double value, double weight = 0);
     Neuron(vector<double> inputsValues, Input* bias = nullptr);
     ~Neuron();
     //void addInput(Input *input);

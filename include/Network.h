@@ -19,7 +19,7 @@ private:
     vector<Layer *> layers;
 public:
     //  numberOfLayers is a int number without dataLayer
-    Network(vector<double> inputsValues, int numberOfLayers = defaultNumberOfLayers);
+    Network(Layer* dataLayer, vector<Layer*> layers);
 
     string toString();
 };

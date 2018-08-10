@@ -14,7 +14,7 @@ class Layer {
 private:
     vector<Neuron *> neurons;
 public:
-    Layer(int numberOfNeurons = 3, vector<double> inputsValues = vector<double>());
+    Layer(vector<Neuron*> neurons = vector<Neuron*>());
     void addNeuron(Neuron *neuron);
 
     Neuron* getNeuron(int index);
