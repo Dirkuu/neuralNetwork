@@ -7,22 +7,8 @@
 #include <string>
 #include <iostream>
 
-Layer::Layer(int numberOfNeurons, vector<double> inputsValues)
+Layer::Layer(vector<Neuron*> neurons): neurons(neurons)
 {
-    if (inputsValues.size() != 0)
-    {
-        for (int i = 0; i < numberOfNeurons; ++i)
-        {
-            this->neurons.push_back(new Neuron(inputsValues));
-        }
-    }
-    else
-    {
-        for (int i = 0; i < numberOfNeurons; ++i)
-        {
-            this->neurons.push_back(new Neuron(1));
-        }
-    }
 }
 
 void Layer::addNeuron(Neuron *neuron)
