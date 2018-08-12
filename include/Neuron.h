@@ -14,6 +14,12 @@ using namespace std;
 
 class Neuron {
 private:
+    double error;
+    //double sum;
+    double output;
+
+    void sum();
+
     Input* bias;
     vector<Input *> inputs;
 public:
@@ -21,11 +27,15 @@ public:
     Neuron(vector<Input*> inputs, Input* bias = nullptr);
     ~Neuron();
     //void addInput(Input *input);
+    void setNewBias(Input* newBias);
+    void setNewInputs(vector<Input*> newInputs);
+
     Input* getBias();
     Input* getInput(int index);
 
-    double sum();
-
+    double getError();
+    //double getSum();
+    double getOutput();
     string toString();
 };
 

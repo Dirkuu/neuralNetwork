@@ -27,7 +27,9 @@ int main ()
 
     //Network *network = new Network();
 
-    cout << "One neuron with random weights: ";// << neuron->sum();
+    //neurons.at(0)->sum();
+
+    cout << "One neuron with random weights: " << neurons.at(0)->getOutput();
     delete layer;
 
     return 0;

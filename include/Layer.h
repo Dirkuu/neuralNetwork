@@ -19,6 +19,7 @@ public:
     ~Layer();
     void addNeuron(Neuron *neuron);
 
+
     Neuron* getNeuron(int index);
 
     string toString();

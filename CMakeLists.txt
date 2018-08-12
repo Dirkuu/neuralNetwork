@@ -10,13 +10,17 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(CMAKE_CXX_STANDARD 14)
 
+
+
 #lista plików źródłowych
 set(SOURCE_FILES
-        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp include/templateForeachDeleteFunction.h)
+        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp include/templateForeachDeleteFunction.h libraries/fast-cpp-csv-parser/csv.h)
 
 add_library(Library ${SOURCE_FILES})
 set_target_properties(Library PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(Library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(Library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(Library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libraries)
 
 
 #co ma być zbudowane i z czego

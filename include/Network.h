@@ -23,6 +23,7 @@ public:
     Network(Layer* dataLayer, vector<Layer*> layers);
     ~Network();
 
+    void init(string pathToCSV);
     string toString();
 };
 
