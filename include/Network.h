@@ -12,8 +12,6 @@ using namespace std;
 #include <string>
 #include <vector>
 
-const int defaultNumberOfLayers = 2;
-
 class Network {
 private:
     Layer *dataLayer;

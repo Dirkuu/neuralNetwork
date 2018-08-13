@@ -11,17 +11,67 @@ Layer::~Layer()
     del(neurons);
 }
 
-void Layer::addNeuron(Neuron *neuron)
+//void Layer::addNeuron(Neuron *neuron)
+//{
+//    this->neurons.push_back(neuron);
+//}
+
+
+
+
+
+
+
+//setters
+bool Layer::setNewInputsValues(vector<double> newInputsValues)
 {
-    this->neurons.push_back(neuron);
+    for (int i = 0; i < this->neurons.size(); ++i)
+    {
+        if (!this->neurons.at(i)->setNewInputsValues(newInputsValues))          return false;
+    }
+
+
+    return true;
 }
 
+
+
+
+
+//getters
 Neuron* Layer::getNeuron(int index)
 {
     return this->neurons.at(index);
 }
 
+vector<double> Layer::getOutputs()
+{
+    vector<double> outputs;
+
+    for (int i = 0; i < this->neurons.size(); ++i)
+    {
+        outputs.push_back(this->neurons.at(i)->activationFunction());
+    }
+
+    return outputs;
+}
+
 string Layer::toString()
 {
-    return "This layer have "+ to_string(this->neurons.size()) +" neurons";
+    vector<double> outputs = this->getOutputs();
+
+    string retString = "Number of neurons ";
+    retString += to_string(this->neurons.size());
+    retString += ", outputs: ";
+
+    for (int i = 0; i < outputs.size(); ++i)
+    {
+        retString += " ";
+        retString += to_string(outputs.at(i));
+        retString += ";";
+    }
+
+    retString += "\n";
+
+    return retString;
 }

@@ -18,7 +18,7 @@ private:
     //double sum;
     double output;
 
-    void sum();
+    double sum();
 
     Input* bias;
     vector<Input *> inputs;
@@ -27,9 +27,24 @@ public:
     Neuron(vector<Input*> inputs, Input* bias = nullptr);
     ~Neuron();
     //void addInput(Input *input);
-    void setNewBias(Input* newBias);
-    void setNewInputs(vector<Input*> newInputs);
 
+    double activationFunction();
+
+
+
+
+
+
+
+
+//setters
+    void setNewBias(Input* newBias);
+    bool setNewInputs(vector<Input*> newInputs);
+    bool setNewInputsValues(vector<double> newInputsValues);
+    bool setNewInputsWeights(vector<double> newInputsWeights);
+
+
+//getters
     Input* getBias();
     Input* getInput(int index);
 
