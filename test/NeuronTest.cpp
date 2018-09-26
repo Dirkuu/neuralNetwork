@@ -2,31 +2,49 @@
 // Created by pobi on 8/1/18.
 //
 
-#include <boost/test/unit_test.hpp>
-#include <Neuron.h>
 using namespace std;
 
+#include <boost/test/unit_test.hpp>
+#include <Neuron.h>
+
 BOOST_AUTO_TEST_SUITE(NeuronTest)
-    BOOST_AUTO_TEST_CASE(OneElementConstructor)
+    BOOST_AUTO_TEST_CASE(OneDoubleElementConstructor)
     {
         Neuron* neuron = new Neuron(3);
 
 
-        BOOST_CHECK_EQUAL(neuron->getInput(0), nullptr);
-        BOOST_CHECK_EQUAL(neuron->getInput(1), nullptr);
+        BOOST_CHECK_EQUAL(neuron->getInput(0)->getValue(), 3);
+
+        bool defaultWeightInterval;
+        if (neuron->getInput(0)->getWeight() >= -0.5 && neuron->getInput(0)->getWeight() <= 0.5)            defaultWeightInterval = true;
+        else                                                                                                defaultWeightInterval = false;
+
+        BOOST_CHECK_EQUAL(defaultWeightInterval, true);
 
         delete neuron;
     }
 
     BOOST_AUTO_TEST_CASE(GetBiasTest)
     {
-        Neuron* neuron = new Neuron(new Input(5), 3);
+        vector<Input*> inputs;
+        inputs.push_back(new Input(5));
 
-        BOOST_CHECK_EQUAL(neuron->getBias()->getValue(), 5);
-        BOOST_CHECK_EQUAL(neuron->getBias()->getWeight(), 1.0);
+        Neuron* neuron = new Neuron(inputs);
+
+
+        bool nullptrBool;
+        if (neuron->getBias() == nullptr)                   nullptrBool = true;
+        else                                                nullptrBool = false;
+
+        BOOST_CHECK_EQUAL(nullptrBool, true);
 
 
         delete neuron;
+    }
+
+    BOOST_AUTO_TEST_CASE(DAFUQdeleteThisTestToKnow)
+    {
+        BOOST_CHECK_EQUAL(1, 1);
     }
 
 

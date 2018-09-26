@@ -26,13 +26,13 @@ double Neuron::sum()
 
 Neuron::Neuron(double value, double weight)
 {
-    if (weight != NULL)         this->inputs.push_back(new Input(value, weight));
-    else                        this->inputs.push_back(new Input(value));
+    if (weight == NULL)         this->inputs.push_back(new Input(value));
+    else                        this->inputs.push_back(new Input(value, weight));
 
     this->sum();
 }
 
-Neuron::Neuron(vector<Input*> inputs, Input* bias): bias(bias), inputs(inputs) { this->sum(); }
+Neuron::Neuron(vector<Input*> &inputs, Input* bias): bias(bias), inputs(inputs) { this->sum(); }
 
 Neuron::~Neuron()
 {
@@ -127,7 +127,7 @@ Input* Neuron::getBias()
 
 Input* Neuron::getInput(int index)
 {
-    this->inputs.at(index);
+    return this->inputs.at(index);
 }
 
 double Neuron::getError() { return this->error; }

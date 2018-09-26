@@ -8,6 +8,8 @@ using namespace std;
 #include <Network.h>
 #include <iostream>
 
+using std::vector;
+
 int main ()
 {
     srand(time(NULL));
@@ -31,12 +33,29 @@ int main ()
     Layer* layer = new Layer(neurons);
 
 
-    //Network *network = new Network();
-
-    //neurons.at(0)->sum();
-    //cout << neurons.at(0)->activationFunction();
     cout << layer->toString();
+
+
     delete layer;
+
+
+
+
+
+    //vector<Input*> inputs;
+    //inputs.push_back(new Input(5));
+    //inputs.push_back(new Input(2));
+//
+    //Neuron* neuron = new Neuron(inputs);
+//
+    //for (int i = 0; i < inputs.size(); ++i)
+    //{
+    //    cout << inputs.at(i)->getValue() << "; " << neuron->getInput(i)->getValue() << endl;
+    //}
+//
+    //delete neuron;
+    //delete inputs.at(0);
+    //delete inputs.at(1);
 
     return 0;
 }

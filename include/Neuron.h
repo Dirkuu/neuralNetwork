@@ -11,6 +11,7 @@ using namespace std;
 #include "templateForeachDeleteFunction.h"
 #include <vector>
 #include <string>
+#include <bits/stdc++.h>
 
 class Neuron {
 private:
@@ -24,7 +25,7 @@ private:
     vector<Input *> inputs;
 public:
     Neuron(double value, double weight = NULL);
-    Neuron(vector<Input*> inputs, Input* bias = nullptr);
+    Neuron(vector<Input*> &inputs, Input* bias = nullptr);
     ~Neuron();
     //void addInput(Input *input);
 
