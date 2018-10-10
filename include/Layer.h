@@ -5,18 +5,20 @@
 #ifndef NEURALNETWORK_LAYER_H
 #define NEURALNETWORK_LAYER_H
 
-using namespace std;
 
 #include "Neuron.h"
 #include "templateForeachDeleteFunction.h"
 #include <vector>
 
+using namespace std;
+
 class Layer {
 private:
-    vector<Neuron *> neurons;
+    vector<Neuron> neurons;
     vector<double> outputs;
 public:
-    Layer(vector<Neuron*> neurons = vector<Neuron*>());
+    Layer(int numberOfNeurons);
+    Layer(vector<Neuron> neurons = vector<Neuron>());
     ~Layer();
     //void addNeuron(Neuron *neuron);
 
@@ -26,8 +28,9 @@ public:
 
 
 //getters
-    Neuron* getNeuron(int index);
+    Neuron& getNeuron(int index);
     vector<double> getOutputs();
+    int getNumberOfNeurons();
     string toString();
 };
 

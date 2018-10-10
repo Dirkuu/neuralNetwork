@@ -5,7 +5,6 @@
 #ifndef NEURALNETWORK_NEURON_H
 #define NEURALNETWORK_NEURON_H
 
-using namespace std;
 
 #include "Input.h"
 #include "templateForeachDeleteFunction.h"
@@ -13,19 +12,22 @@ using namespace std;
 #include <string>
 #include <bits/stdc++.h>
 
+using namespace std;
+
 class Neuron {
 private:
     double error;
     //double sum;
     double output;
 
-    double sum();
+    //double sum();
 
     Input* bias;
-    vector<Input *> inputs;
+    vector<Input> inputs;
 public:
-    Neuron(double value, double weight = NULL);
-    Neuron(vector<Input*> &inputs, Input* bias = nullptr);
+    double sum();
+    Neuron(double value = 0, double weight = NULL, Input* bias = nullptr);
+    Neuron(vector<Input> inputs, Input* bias = nullptr);
     ~Neuron();
     //void addInput(Input *input);
 
@@ -40,14 +42,14 @@ public:
 
 //setters
     void setNewBias(Input* newBias);
-    bool setNewInputs(vector<Input*> newInputs);
+    bool setNewInputs(vector<Input> newInputs);
     bool setNewInputsValues(vector<double> newInputsValues);
     bool setNewInputsWeights(vector<double> newInputsWeights);
 
 
 //getters
     Input* getBias();
-    Input* getInput(int index);
+    Input& getInput(int index);
 
     double getError();
     //double getSum();

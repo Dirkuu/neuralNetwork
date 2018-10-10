@@ -2,10 +2,10 @@
 // Created by Wojtek on 2018-07-10.
 //
 
-using namespace std;
-
 #include <Neuron.h>
 #include <tgmath.h>
+
+using namespace std;
 
 double Neuron::sum()
 {
@@ -19,26 +19,32 @@ double Neuron::sum()
     //    sum += this->inputs.at(i)->getValue() * this->inputs.at(i)->getWeight();
     //}
 
-    for_each(this->inputs.begin(), this->inputs.end(), [&sum](Input* input){ sum += input->getValue() * input->getWeight(); });
+    //for_each(this->inputs.begin(), this->inputs.end(), [&sum](Input* input){ sum += input->getValue() * input->getWeight(); });
+
+    for (int i = 0; i < this->inputs.size(); ++i)
+    {
+        sum += this->inputs.at(i).getValue() * this->inputs.at(i).getWeight();
+    }
 
     return sum;
 }
 
-Neuron::Neuron(double value, double weight)
+Neuron::Neuron(double value, double weight, Input* bias): bias(bias)
 {
-    if (weight == NULL)         this->inputs.push_back(new Input(value));
-    else                        this->inputs.push_back(new Input(value, weight));
+    if (weight == NULL)         this->inputs.emplace_back(value);
+    else                        this->inputs.emplace_back(value, weight);
+
 
     this->sum();
 }
 
-Neuron::Neuron(vector<Input*> &inputs, Input* bias): bias(bias), inputs(inputs) { this->sum(); }
+Neuron::Neuron(vector<Input> inputs, Input* bias): bias(bias), inputs(inputs) { this->sum(); }
 
 Neuron::~Neuron()
 {
     if (this->bias != nullptr)          delete this->bias;
 
-    del(inputs);
+    //del(inputs);
 }
 
 //void Neuron::addInput(Input *input)
@@ -67,11 +73,11 @@ void Neuron::setNewBias(Input* newBias)
     this->bias = newBias;
 }
 
-bool Neuron::setNewInputs(vector<Input*> newInputs)
+bool Neuron::setNewInputs(vector<Input> newInputs)
 {
     if (this->inputs.size() == newInputs.size())
     {
-        del(inputs);
+        //delete inputs;//del(inputs);
 
         this->inputs = newInputs;
 
@@ -89,7 +95,7 @@ bool Neuron::setNewInputsValues(vector<double> newInputsValues)
     {
         for (int i = 0; i < this->inputs.size(); ++i)
         {
-            this->inputs.at(i)->setNewValue(newInputsValues.at(i));
+            this->inputs.at(i).setNewValue(newInputsValues.at(i));
         }
 
         return true;
@@ -106,7 +112,7 @@ bool Neuron::setNewInputsWeights(vector<double> newInputsWeights)
     {
         for (int i = 0; i < this->inputs.size(); ++i)
         {
-            this->inputs.at(i)->setNewWeight(newInputsWeights.at(i));
+            this->inputs.at(i).setNewWeight(newInputsWeights.at(i));
         }
 
         return true;
@@ -125,7 +131,7 @@ Input* Neuron::getBias()
     return this->bias;
 }
 
-Input* Neuron::getInput(int index)
+Input& Neuron::getInput(int index)
 {
     return this->inputs.at(index);
 }

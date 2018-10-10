@@ -5,20 +5,22 @@
 #ifndef NEURALNETWORK_NETWORK_H
 #define NEURALNETWORK_NETWORK_H
 
-using namespace std;
 
 #include "Layer.h"
 #include "templateForeachDeleteFunction.h"
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Network {
 private:
-    Layer *dataLayer;
-    vector<Layer *> layers;
+    Layer* dataLayer;
+    vector<Layer> layers;
+    Layer* outputLayer;
 public:
-    //  numberOfLayers is a int number without dataLayer
-    Network(Layer* dataLayer, vector<Layer*> layers);
+    Network(vector<Input> dataInputs, int numberOfHiddenLayers, vector<int> numbersOfNeuronsInHiddenLayers);
+    Network(Layer* dataLayer, vector<Layer> layers);
     ~Network();
 
     void init(string pathToCSV);

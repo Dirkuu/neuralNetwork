@@ -36,10 +36,10 @@ target_include_directories(neuralNetwork PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/incl
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 
+#Test sprawdzajacy klase Input
 set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp)
 include_directories(${Boost_INCLUDE_DIRS})
 
-#Test sprawdzajacy klase Input
 add_executable(InputTest ${SOURCE_TEST_FILES})
 target_link_libraries(InputTest Library ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} -lboost_date_time -lstdc++)
 add_test(Test InputTest
@@ -49,6 +49,32 @@ add_test(Test InputTest
         )
 
 
+
+#Test sprawdzajacy klase Neuron
+set(SOURCE_TEST_FILES test/master.cpp test/NeuronTest.cpp)
+include_directories(${Boost_INCLUDE_DIRS})
+
+add_executable(NeuronTest ${SOURCE_TEST_FILES})
+target_link_libraries(NeuronTest Library ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} -lboost_date_time -lstdc++)
+add_test(Test NeuronTest
+        --report_level=detailed
+        --log_level=all
+        --color_output=yes
+        )
+
+
+
+#Wszystkie testy
+set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp test/NeuronTest.cpp)
+include_directories(${Boost_INCLUDE_DIRS})
+
+add_executable(Tests ${SOURCE_TEST_FILES})
+target_link_libraries(Tests Library ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} -lboost_date_time -lstdc++)
+add_test(Test Tests
+        --report_level=detailed
+        --log_level=all
+        --color_output=yes
+        )
 
 
 
