@@ -3,59 +3,54 @@
 //
 
 
-using namespace std;
 
 #include <Network.h>
 #include <iostream>
 
-using std::vector;
+using namespace std;
 
 int main ()
 {
     srand(time(NULL));
-    //Input *input = new Input(5);
-    vector<Input*> firstInputs;
-    firstInputs.push_back(new Input(1.0));
-    firstInputs.push_back(new Input(1.0));
-    firstInputs.push_back(new Input(1.0));
-    firstInputs.push_back(new Input(2.0));
 
-    vector<Input*> secondInputs;
-    secondInputs.push_back(new Input(1.0));
-    secondInputs.push_back(new Input(1.0));
-    secondInputs.push_back(new Input(1.0));
-    secondInputs.push_back(new Input(2.0));
+    vector<Input> firstInputs;
 
-    vector<Neuron*> neurons;
-    neurons.push_back(new Neuron(firstInputs, new Input(1.2)));
-    neurons.push_back(new Neuron(secondInputs));
+    firstInputs.emplace_back(1.0);
+    firstInputs.emplace_back(0.0);
+    firstInputs.emplace_back(0.0);
+    firstInputs.emplace_back(0.0);
 
-    Layer* layer = new Layer(neurons);
+    vector<Input> secondInputs;
+    secondInputs.emplace_back(0.0);
+    secondInputs.emplace_back(1.0);
+    secondInputs.emplace_back(0.0);
+    secondInputs.emplace_back(0.0);
 
+    vector<Input> thirdInputs;
+    thirdInputs.emplace_back(0.0);
+    thirdInputs.emplace_back(0.0);
+    thirdInputs.emplace_back(1.0);
+    thirdInputs.emplace_back(0.0);
 
-    cout << layer->toString();
+    vector<Input> fourthInputs;
+    fourthInputs.emplace_back(0.0);
+    fourthInputs.emplace_back(0.0);
+    fourthInputs.emplace_back(0.0);
+    fourthInputs.emplace_back(1.0);
 
+    vector<int> numberOfNeuronsInHiddenLayers;
+    numberOfNeuronsInHiddenLayers.emplace_back(2);
 
-    delete layer;
+    Network* firstNetwork = new Network(firstInputs, 1, numberOfNeuronsInHiddenLayers);
+    Network* secondNetwork = new Network(secondInputs, 1, numberOfNeuronsInHiddenLayers);
+    Network* thirdNetwork = new Network(thirdInputs, 1, numberOfNeuronsInHiddenLayers);
+    Network* fourthNetwork = new Network(fourthInputs, 1, numberOfNeuronsInHiddenLayers);
 
+    delete firstNetwork;
+    delete secondNetwork;
+    delete thirdNetwork;
+    delete fourthNetwork;
 
-
-
-
-    //vector<Input*> inputs;
-    //inputs.push_back(new Input(5));
-    //inputs.push_back(new Input(2));
-//
-    //Neuron* neuron = new Neuron(inputs);
-//
-    //for (int i = 0; i < inputs.size(); ++i)
-    //{
-    //    cout << inputs.at(i)->getValue() << "; " << neuron->getInput(i)->getValue() << endl;
-    //}
-//
-    //delete neuron;
-    //delete inputs.at(0);
-    //delete inputs.at(1);
 
     return 0;
 }

@@ -2,9 +2,9 @@
 // Created by Wojtek on 2018-07-10.
 //
 
-using namespace std;
-
 #include <Input.h>
+
+using namespace std;
 
 Input::Input(double value, double weight):      value(value), weight(weight) {}
 

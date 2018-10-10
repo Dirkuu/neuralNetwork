@@ -5,7 +5,10 @@
 #ifndef NEURALNETWORK_INPUT_H
 #define NEURALNETWORK_INPUT_H
 
+
 #include <cstdlib>
+
+using namespace std;
 
 class Input {
 private:
