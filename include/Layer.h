@@ -28,6 +28,7 @@ public:
 
 //getters
     Neuron& getNeuron(int index);
+    vector<double> getDataLayerOutputs();
     vector<double> getOutputs();
     int getNumberOfNeurons();
     string toString();
