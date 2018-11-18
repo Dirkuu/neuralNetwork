@@ -5,3 +5,24 @@
 #include <Layer.h>
 
 using namespace std;
+
+Layer::Layer(vector<shared_ptr<Input>> inputs)
+{
+    this->neurons.emplace_back(make_shared<Neuron>(inputs));
+}
+
+Layer::Layer(int numberOfNeurons, int numberOfInputs)
+{
+    for(int i = 0; i < numberOfNeurons; ++i)
+    {
+        this->neurons.emplace_back(make_shared<Neuron>(numberOfInputs));
+    }
+}
+
+
+
+//getters
+vector<shared_ptr<Neuron>>& Layer::getNeurons()
+{
+    return this->neurons;
+}

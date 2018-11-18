@@ -13,7 +13,14 @@ using namespace std;
 
 class Layer {
 private:
+    vector<shared_ptr<Neuron>> neurons;
 public:
+    Layer(vector<shared_ptr<Input>> inputs);
+    Layer(int numberOfNeurons, int numberOfInputs);
+
+
+    //getters
+    vector<shared_ptr<Neuron>>& getNeurons();
 };
 
 #endif //NEURALNETWORK_LAYER_H

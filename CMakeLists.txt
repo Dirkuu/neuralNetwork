@@ -64,8 +64,22 @@ add_test(Test NeuronTest
 
 
 
+#Test sprawdzajacy klase Neuron
+set(SOURCE_TEST_FILES test/master.cpp test/LayerTest.cpp)
+include_directories(${Boost_INCLUDE_DIRS})
+
+add_executable(LayerTest ${SOURCE_TEST_FILES})
+target_link_libraries(LayerTest Library ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} -lboost_date_time -lstdc++)
+add_test(Test LayerTest
+        --report_level=detailed
+        --log_level=all
+        --color_output=yes
+        )
+
+
+
 #Wszystkie testy
-set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp test/NeuronTest.cpp)
+set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp test/NeuronTest.cpp test/LayerTest.cpp)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(Tests ${SOURCE_TEST_FILES})

@@ -3,11 +3,18 @@
 //
 
 #include <Neuron.h>
+#include <cmath>
 
 using namespace std;
 
 Neuron::Neuron(vector<shared_ptr<Input>> inputs, shared_ptr<Input> bias): inputs(inputs), bias(bias) {}
-
+Neuron::Neuron(int numberOfInputs)
+{
+    for (int i = 0; i < numberOfInputs; ++i)
+    {
+        this->inputs.emplace_back(make_shared<Input>(0));
+    }
+}
 
 
 
@@ -38,5 +45,5 @@ vector<shared_ptr<Input>>& Neuron::getInputs()
 
 double Neuron::getOutput()
 {
-    
+    return 1.0 / (1.0 + exp(-this->sum() ));
 }

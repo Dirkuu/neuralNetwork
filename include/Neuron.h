@@ -20,6 +20,7 @@ private:
     double sum();
 public:
     Neuron(vector<shared_ptr<Input>> inputs, shared_ptr<Input> bias = nullptr);
+    Neuron(int numberOfInputs);
 
 
     //getters

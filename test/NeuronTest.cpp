@@ -8,7 +8,7 @@ using namespace std;
 #include <Neuron.h>
 
 BOOST_AUTO_TEST_SUITE(NeuronTest)
-    BOOST_AUTO_TEST_CASE(NeuronConstructorTestWithoutBias)
+    BOOST_AUTO_TEST_CASE(NeuronVectorConstructorTestWithoutBias)
     {
         vector<shared_ptr<Input>> inputs;
         inputs.emplace_back(make_shared<Input>(58));
@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_SUITE(NeuronTest)
         }
     }
 
-    BOOST_AUTO_TEST_CASE(NeuronConstructorTestWithBias)
+    BOOST_AUTO_TEST_CASE(NeuronVectorConstructorTestWithBias)
     {
         vector<shared_ptr<Input>> inputs;
         inputs.emplace_back(make_shared<Input>(58));
@@ -45,6 +45,13 @@ BOOST_AUTO_TEST_SUITE(NeuronTest)
         BOOST_CHECK_EQUAL(neuron->getBias()->getValue(), 54);
     }
 
+    BOOST_AUTO_TEST_CASE(NeuronIntConstructorTestWithoutBias)
+    {
+        shared_ptr<Neuron> neuron = make_shared<Neuron>(5);
+
+        BOOST_CHECK_EQUAL(neuron->getInputs().size(), 5);
+    }
+
     BOOST_AUTO_TEST_CASE(NeuronSumMethodTestWithoutBias)
     {
         vector<shared_ptr<Input>> inputs;
@@ -55,6 +62,6 @@ BOOST_AUTO_TEST_SUITE(NeuronTest)
 
         shared_ptr<Neuron> neuron = make_shared<Neuron>(inputs);
 
-        //BOOST_CHECK_EQUAL(neuron->)
+        BOOST_CHECK_EQUAL(neuron->getOutput(), 0.2192572520878717);
     }
 BOOST_AUTO_TEST_SUITE_END()
