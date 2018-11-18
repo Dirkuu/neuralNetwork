@@ -13,6 +13,8 @@ using namespace std;
 
 class Neuron {
 private:
+    vector<Input*> inputs;
+
 public:
 };
 
