@@ -18,6 +18,11 @@ double Input::getWeight()
     return this->weight;
 }
 
+double Input::getOutput()
+{
+    return this->value * this->weight;
+}
+
 void Input::setNewValue(double newValue)
 {
     this->value = newValue;

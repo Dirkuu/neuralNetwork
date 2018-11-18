@@ -19,6 +19,7 @@ public:
 
     double getValue();
     double getWeight();
+    double getOutput();
 
     void setNewValue(double newValue);
     void setNewWeight(double newWeight);

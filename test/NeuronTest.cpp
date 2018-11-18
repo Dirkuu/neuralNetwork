@@ -8,6 +8,8 @@ using namespace std;
 #include <Neuron.h>
 
 BOOST_AUTO_TEST_SUITE(NeuronTest)
+    BOOST_AUTO_TEST_CASE(NeuronTest)
+    {
 
-
+    }
 BOOST_AUTO_TEST_SUITE_END()

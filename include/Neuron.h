@@ -8,14 +8,15 @@
 
 #include "Input.h"
 #include <vector>
+#include <memory>
 
 using namespace std;
 
 class Neuron {
 private:
-    vector<Input*> inputs;
-
+    vector<shared_ptr<Input>> inputs;
 public:
+    vector<shared_ptr<Input>>& getInputs();
 };
 
 #endif //NEURALNETWORK_NEURON_H
