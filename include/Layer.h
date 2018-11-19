@@ -15,7 +15,7 @@ class Layer {
 private:
     vector<shared_ptr<Neuron>> neurons;
 public:
-    Layer(vector<shared_ptr<Input>> inputs);
+    Layer(vector<shared_ptr<Neuron>> neurons);
     Layer(int numberOfNeurons, int numberOfInputs);
 
 

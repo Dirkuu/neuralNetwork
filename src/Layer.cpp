@@ -6,10 +6,7 @@
 
 using namespace std;
 
-Layer::Layer(vector<shared_ptr<Input>> inputs)
-{
-    this->neurons.emplace_back(make_shared<Neuron>(inputs));
-}
+Layer::Layer(vector<shared_ptr<Neuron>> neurons): neurons(neurons) {}
 
 Layer::Layer(int numberOfNeurons, int numberOfInputs)
 {
