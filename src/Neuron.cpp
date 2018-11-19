@@ -8,6 +8,10 @@
 using namespace std;
 
 Neuron::Neuron(vector<shared_ptr<Input>> inputs, shared_ptr<Input> bias): inputs(inputs), bias(bias) {}
+Neuron::Neuron(shared_ptr<Input> input, shared_ptr<Input> bias): bias(bias)
+{
+    this->inputs.emplace_back(input);
+}
 Neuron::Neuron(int numberOfInputs)
 {
     for (int i = 0; i < numberOfInputs; ++i)
@@ -46,4 +50,8 @@ vector<shared_ptr<Input>>& Neuron::getInputs()
 double Neuron::getOutput()
 {
     return 1.0 / (1.0 + exp(-this->sum() ));
+}
+
+string Neuron::toString()
+{
 }

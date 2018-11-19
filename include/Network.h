@@ -13,7 +13,26 @@ using namespace std;
 
 class Network {
 private:
+    int epoch = 0;
+    int maxNumbersOfEpochs = 500;
+
+    shared_ptr<Layer> dataLayer;
+    vector<shared_ptr<Layer>> hiddenLayers;
+    shared_ptr<Layer> outputLayer;
+
+
+    vector<double> wantedOutputs;
+
+    void doUsefulThings();
+    void goForward();
+    void backPropagation();
 public:
+    Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs);
+
+
+
+    //getters
+    string log();
 };
 
 #endif //NEURALNETWORK_NETWORK_H

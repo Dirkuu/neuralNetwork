@@ -23,3 +23,30 @@ vector<shared_ptr<Neuron>>& Layer::getNeurons()
 {
     return this->neurons;
 }
+
+string Layer::toString()
+{
+    string retString = "This layer have "+ to_string(this->getNeurons().size()) +" neurons\n";
+
+    for (shared_ptr<Neuron> neuron: this->neurons)
+    {
+        retString += "(Value / Weight / Output) of inputs\n";
+        for (shared_ptr<Input> input: neuron->getInputs())
+        {
+            retString += to_string(input->getValue());
+            retString += " / ";
+            retString += to_string(input->getWeight());
+            retString += " / ";
+            retString += to_string(input->getOutput());
+            retString += "\n";
+        }
+
+        retString += "Output of neuron: ";
+        retString += to_string(neuron->getOutput());
+        retString += "\n\n";
+    }
+
+    retString += "=================\n";
+
+    return retString;
+}

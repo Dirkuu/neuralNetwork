@@ -21,6 +21,8 @@ public:
 
     //getters
     vector<shared_ptr<Neuron>>& getNeurons();
+
+    string toString();
 };
 
 #endif //NEURALNETWORK_LAYER_H
