@@ -60,6 +60,7 @@ void Network::goForward()
 {
     vector<shared_ptr<Neuron>> previousLayerNeurons = this->dataLayer->getNeurons();
 
+    bool firstHiddenlayer = true;
     //hiddenLayers forward
     for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
     {
@@ -67,11 +68,25 @@ void Network::goForward()
         {
             int numberOfInput = 0;
 
-            for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
+            if (firstHiddenlayer)
             {
-                hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());
+                for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
+                {
+                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getInputs().at(0)->getValue());
 
-                ++numberOfInput;
+                    ++numberOfInput;
+                }
+
+                firstHiddenlayer = false;
+            }
+            else
+            {
+                for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
+                {
+                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());
+
+                    ++numberOfInput;
+                }
             }
         }
 
