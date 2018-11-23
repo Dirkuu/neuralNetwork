@@ -18,6 +18,8 @@ public:
     Layer(vector<shared_ptr<Neuron>> neurons);
     Layer(int numberOfNeurons, int numberOfInputs);
 
+    void updateErrors();
+
 
     //getters
     vector<shared_ptr<Neuron>>& getNeurons();

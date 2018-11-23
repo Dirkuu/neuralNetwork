@@ -15,6 +15,7 @@ class Network {
 private:
     int epoch = 0;
     int maxNumbersOfEpochs = 500;
+    double learnRate = 1.0;
 
     shared_ptr<Layer> dataLayer;
     vector<shared_ptr<Layer>> hiddenLayers;
@@ -26,6 +27,7 @@ private:
     void doUsefulThings();
     void goForward();
     void backPropagation();
+    void newWeightsTime();
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs);
 

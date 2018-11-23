@@ -7,11 +7,6 @@
 
 using namespace std;
 
-
-//shared_ptr<Layer> dataLayer;
-//Layer(vector<shared_ptr<Neuron>> neurons);
-//vector<shared_ptr<Layer>> hiddenLayers;
-//shared_ptr<Layer> outputLayer;
 Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs): wantedOutputs(wantedOutputs)
 {
     //dataLayer
@@ -49,7 +44,7 @@ void Network::doUsefulThings()
         cout << this->log();
 
         this->goForward();
-
+        this->backPropagation();
     }
 
 
@@ -64,23 +59,28 @@ void Network::goForward()
     //hiddenLayers forward
     for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
     {
-        for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
+        if (firstHiddenlayer)
         {
-            int numberOfInput = 0;
-
-            if (firstHiddenlayer)
+            for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
             {
+                int numberOfInput = 0;
+
                 for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
                 {
                     hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getInputs().at(0)->getValue());
 
                     ++numberOfInput;
                 }
-
-                firstHiddenlayer = false;
             }
-            else
+
+            firstHiddenlayer = false;
+        }
+        else
+        {
+            for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
             {
+                int numberOfInput = 0;
+
                 for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
                 {
                     hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());
@@ -109,7 +109,30 @@ void Network::goForward()
 
 void Network::backPropagation()
 {
-    
+    int numberOfNeuron = 0;
+    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())
+    {
+        outputLayerNeuron->setFutureError(this->wantedOutputs.at(numberOfNeuron) - outputLayerNeuron->getOutput());
+
+        ++numberOfNeuron;
+    }
+
+
+
+
+    this->outputLayer->updateErrors();
+}
+
+void Network::newWeightsTime()
+{
+    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())
+    {
+        for (shared_ptr<Input> outputLayerNeuronInput: outputLayerNeuron->getInputs())
+        {
+            double newWeight = outputLayerNeuronInput->getWeight() + (this->learnRate * outputLayerNeuron->getError());
+            outputLayerNeuronInput->setNewWeight();
+        }
+    }
 }
 
 

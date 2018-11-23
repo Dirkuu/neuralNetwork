@@ -16,6 +16,13 @@ Layer::Layer(int numberOfNeurons, int numberOfInputs)
     }
 }
 
+void Layer::updateErrors()
+{
+    for (shared_ptr<Neuron> neuron: this->neurons)
+    {
+        neuron->updateError();
+    }
+}
 
 
 //getters
