@@ -16,9 +16,9 @@ int main ()
 
     vector<shared_ptr<Input>> inputs;
     inputs.emplace_back(make_shared<Input>(1, 1));
-    inputs.emplace_back(make_shared<Input>(0));
-    inputs.emplace_back(make_shared<Input>(0));
-    inputs.emplace_back(make_shared<Input>(0));
+    inputs.emplace_back(make_shared<Input>(0, 1));
+    inputs.emplace_back(make_shared<Input>(0, 1));
+    inputs.emplace_back(make_shared<Input>(0, 1));
 
     vector<int> numbersOfNeuronsInHiddenLayers;
     numbersOfNeuronsInHiddenLayers.emplace_back(2);

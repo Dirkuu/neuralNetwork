@@ -43,8 +43,12 @@ void Network::doUsefulThings()
     {
         cout << this->log();
 
+
+
+
         this->goForward();
         this->backPropagation();
+        this->newWeightsTime();
     }
 
 
@@ -55,11 +59,11 @@ void Network::goForward()
 {
     vector<shared_ptr<Neuron>> previousLayerNeurons = this->dataLayer->getNeurons();
 
-    bool firstHiddenlayer = true;
+    bool firstHiddenLayerFlag = true;
     //hiddenLayers forward
     for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
     {
-        if (firstHiddenlayer)
+        if (firstHiddenLayerFlag)
         {
             for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
             {
@@ -73,7 +77,7 @@ void Network::goForward()
                 }
             }
 
-            firstHiddenlayer = false;
+            firstHiddenLayerFlag = false;
         }
         else
         {
@@ -109,6 +113,7 @@ void Network::goForward()
 
 void Network::backPropagation()
 {
+    //outputLayer
     int numberOfNeuron = 0;
     for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())
     {
@@ -116,25 +121,81 @@ void Network::backPropagation()
 
         ++numberOfNeuron;
     }
-
-
-
-
     this->outputLayer->updateErrors();
+
+
+
+    //hiddenLayers
+    vector<shared_ptr<Neuron>> previousLayerNeurons = this->outputLayer->getNeurons();
+    bool lastHiddenLayerFlag = true;
+
+    for (auto hiddenLayerFromEnd = rbegin(this->hiddenLayers); hiddenLayerFromEnd != rend(this->hiddenLayers); ++hiddenLayerFromEnd)
+    {
+        auto& hiddenLayer = *hiddenLayerFromEnd;
+        numberOfNeuron = 0;
+
+        if (lastHiddenLayerFlag)
+        {
+            for (shared_ptr<Neuron> hiddenLayerFromEndNeuron: hiddenLayer->getNeurons())
+            {
+                double newError = 0;
+                for (shared_ptr<Neuron> previousLayerNeuron: previousLayerNeurons)
+                {
+                    newError += previousLayerNeuron->getInputs().at(numberOfNeuron)->getWeight() * previousLayerNeuron->getError();
+                }
+
+                hiddenLayerFromEndNeuron->setFutureError(newError);
+
+                ++numberOfNeuron;
+            }
+        }
+        else
+        {
+
+        }
+    }
+
+    for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
+    {
+        hiddenLayer->updateErrors();
+    }
 }
 
 void Network::newWeightsTime()
 {
+    //hiddenLayers
+    for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
+    {
+        for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
+        {
+            double output = hiddenLayerNeuron->getOutput();
+
+            for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
+            {
+                double newWeight = hiddenLayerNeuronInput->getWeight() + (this->learnRate * hiddenLayerNeuron->getError() * this->derivative(output));
+                hiddenLayerNeuronInput->setNewWeight(newWeight);
+            }
+        }
+    }
+
+
+    //outputLayer
     for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())
     {
+        double output = outputLayerNeuron->getOutput();
+
         for (shared_ptr<Input> outputLayerNeuronInput: outputLayerNeuron->getInputs())
         {
-            double newWeight = outputLayerNeuronInput->getWeight() + (this->learnRate * outputLayerNeuron->getError());
-            outputLayerNeuronInput->setNewWeight();
+            double newWeight = outputLayerNeuronInput->getWeight() + (this->learnRate * outputLayerNeuron->getError() * this->derivative(output));
+            outputLayerNeuronInput->setNewWeight(newWeight);
         }
     }
 }
 
+double Network::derivative(double sum)
+{
+    return sum*(1 - sum);
+}
 
 
 

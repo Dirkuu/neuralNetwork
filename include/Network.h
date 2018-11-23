@@ -14,7 +14,7 @@ using namespace std;
 class Network {
 private:
     int epoch = 0;
-    int maxNumbersOfEpochs = 500;
+    int maxNumbersOfEpochs = 5000;
     double learnRate = 1.0;
 
     shared_ptr<Layer> dataLayer;
@@ -28,6 +28,7 @@ private:
     void goForward();
     void backPropagation();
     void newWeightsTime();
+    double derivative(double sum);
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs);
 
