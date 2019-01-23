@@ -13,9 +13,10 @@ using namespace std;
 
 class Network {
 private:
+    float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 5000;
-    double learnRate = 1.0;
+    int maxNumbersOfEpochs = 500;
+    float learnRate = 1.0;
 
     shared_ptr<Layer> dataLayer;
     vector<shared_ptr<Layer>> hiddenLayers;
@@ -25,6 +26,7 @@ private:
     vector<double> wantedOutputs;
 
     void doUsefulThings();
+    bool checkPrecision();
     void goForward();
     void backPropagation();
     void newWeightsTime();

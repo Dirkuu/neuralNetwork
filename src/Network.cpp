@@ -4,6 +4,7 @@
 
 #include <Network.h>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -49,10 +50,19 @@ void Network::doUsefulThings()
         this->goForward();
         this->backPropagation();
         this->newWeightsTime();
+
+        if (this->checkPrecision())    break;
     }
 
 
-    cout << fixed << this->log();
+    cout << this->log();
+}
+
+bool Network::checkPrecision()
+{
+    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())     if (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision)      return false;
+
+    return true;
 }
 
 void Network::goForward()
