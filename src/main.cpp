@@ -7,10 +7,11 @@
 #include <Network.h>
 #include <iostream>
 #include <ctime>
+#include <stdlib.h>
 
 using namespace std;
 
-int main ()
+int main (int argc, char *argv[])
 {
     srand(time(0));
 
@@ -30,7 +31,10 @@ int main ()
     wantedOutputs.emplace_back(0);
 
 
-    shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, 1.0, 0.0);
+    if (argc == 3)                              shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]), atof(argv[2]));
+    else if (argc == 2)                         shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]));
+    else                                        shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs);
+
 
 
     return 0;

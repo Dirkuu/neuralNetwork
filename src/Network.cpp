@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate, float biasWeight): wantedOutputs(wantedOutputs), learnRate(learnRate)
+Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate, float momentum, float biasWeight): wantedOutputs(wantedOutputs), learnRate(learnRate), momentum(momentum)
 {
     //dataLayer
     vector<shared_ptr<Neuron>> neuronsInDataLayer;
@@ -40,7 +40,7 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 void Network::doUsefulThings()
 {
-    cout << this->log();
+    //cout << this->log();
 
 
 
@@ -53,7 +53,7 @@ void Network::doUsefulThings()
 
     for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
     {
-        cout << this->log();
+        //cout << this->log();
 
 
 
@@ -63,8 +63,8 @@ void Network::doUsefulThings()
         this->newWeightsTime();
     }
 
-
     cout << this->log();
+    cout << this->epoch << endl;
 }
 
 bool Network::notWantedPrecision()
