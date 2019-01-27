@@ -6,13 +6,13 @@
 
 using namespace std;
 
-Layer::Layer(vector<shared_ptr<Neuron>> neurons): neurons(neurons) {}
+Layer::Layer(vector<shared_ptr<Neuron>> neurons, float biasWeight): neurons(neurons) {}
 
-Layer::Layer(int numberOfNeurons, int numberOfInputs)
+Layer::Layer(int numberOfNeurons, int numberOfInputs, float biasWeight)
 {
     for(int i = 0; i < numberOfNeurons; ++i)
     {
-        this->neurons.emplace_back(make_shared<Neuron>(numberOfInputs));
+        this->neurons.emplace_back(make_shared<Neuron>(numberOfInputs, biasWeight));
     }
 }
 

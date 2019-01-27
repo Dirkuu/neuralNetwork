@@ -30,7 +30,7 @@ int main ()
     wantedOutputs.emplace_back(0);
 
 
-    shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs);
+    shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, 1.0, 0.0);
 
 
     return 0;

@@ -15,8 +15,8 @@ class Layer {
 private:
     vector<shared_ptr<Neuron>> neurons;
 public:
-    Layer(vector<shared_ptr<Neuron>> neurons);
-    Layer(int numberOfNeurons, int numberOfInputs);
+    Layer(vector<shared_ptr<Neuron>> neurons, float biasWeight = std::numeric_limits<float>::quiet_NaN());
+    Layer(int numberOfNeurons, int numberOfInputs, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
     void updateErrors();
 

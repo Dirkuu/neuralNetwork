@@ -9,6 +9,7 @@
 #include "Input.h"
 #include <vector>
 #include <memory>
+#include <limits>
 
 using namespace std;
 
@@ -24,10 +25,11 @@ private:
 
     //getters
     double sum();
+    void createBias(float biasWeight);
 public:
-    Neuron(vector<shared_ptr<Input>> inputs, shared_ptr<Input> bias = nullptr);
-    Neuron(shared_ptr<Input> input, shared_ptr<Input> bias = nullptr);
-    Neuron(int numberOfInputs);
+    Neuron(vector<shared_ptr<Input>> inputs, float biasWeight = std::numeric_limits<float>::quiet_NaN());
+    Neuron(shared_ptr<Input> input, float biasWeight = std::numeric_limits<float>::quiet_NaN());
+    Neuron(int numberOfInputs, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
     void updateError();
 

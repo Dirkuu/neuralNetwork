@@ -26,13 +26,13 @@ private:
     vector<double> wantedOutputs;
 
     void doUsefulThings();
-    bool checkPrecision();
+    bool notWantedPrecision();
     void goForward();
     void backPropagation();
     void newWeightsTime();
     double derivative(double sum);
 public:
-    Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs);
+    Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
 
 

@@ -7,20 +7,33 @@
 
 using namespace std;
 
-Neuron::Neuron(vector<shared_ptr<Input>> inputs, shared_ptr<Input> bias): inputs(inputs), bias(bias) {}
-Neuron::Neuron(shared_ptr<Input> input, shared_ptr<Input> bias): bias(bias)
+Neuron::Neuron(vector<shared_ptr<Input>> inputs, float biasWeight): inputs(inputs)
+{
+    this->createBias(biasWeight);
+}
+Neuron::Neuron(shared_ptr<Input> input, float biasWeight)
 {
     this->inputs.emplace_back(input);
+
+    this->createBias(biasWeight);
 }
-Neuron::Neuron(int numberOfInputs)
+Neuron::Neuron(int numberOfInputs, float biasWeight)
 {
     for (int i = 0; i < numberOfInputs; ++i)
     {
         this->inputs.emplace_back(make_shared<Input>(0));
     }
+
+    this->createBias(biasWeight);
 }
 
 void Neuron::updateError() { this->currentError = this->futureError; }
+
+void Neuron::createBias(float biasWeight)
+{
+    if (isnan(biasWeight))      this->bias = nullptr;
+    else                        this->bias = make_shared<Input>(1, biasWeight);
+}
 
 //setters
 void Neuron::setError(double newError) { this->currentError = newError; }
@@ -36,7 +49,8 @@ double Neuron::sum()
     {
         sum += input->getValue() * input->getWeight();
     }
-    //TODO: Add bias
+
+    if (this->bias != nullptr)      sum += this->bias->getValue() * this->bias->getWeight();
 
 
     return sum;

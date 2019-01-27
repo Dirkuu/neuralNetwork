@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs): wantedOutputs(wantedOutputs)
+Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate, float biasWeight): wantedOutputs(wantedOutputs), learnRate(learnRate)
 {
     //dataLayer
     vector<shared_ptr<Neuron>> neuronsInDataLayer;
@@ -26,7 +26,7 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
     for (int numberOfNeurons: numbersOfNeuronsInHiddenLayers)
     {
-        this->hiddenLayers.emplace_back(make_shared<Layer>(numberOfNeurons, numbersOfInputs));
+        this->hiddenLayers.emplace_back(make_shared<Layer>(numberOfNeurons, numbersOfInputs, biasWeight));
         numbersOfInputs = numberOfNeurons;
     }
 
@@ -40,7 +40,18 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 void Network::doUsefulThings()
 {
-    for (this->epoch; this->epoch < this->maxNumbersOfEpochs; ++this->epoch)
+    cout << this->log();
+
+
+
+
+    this->goForward();
+    this->backPropagation();
+    this->newWeightsTime();
+
+    ++this->epoch;
+
+    for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
     {
         cout << this->log();
 
@@ -50,19 +61,17 @@ void Network::doUsefulThings()
         this->goForward();
         this->backPropagation();
         this->newWeightsTime();
-
-        if (this->checkPrecision())    break;
     }
 
 
     cout << this->log();
 }
 
-bool Network::checkPrecision()
+bool Network::notWantedPrecision()
 {
-    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())     if (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision)      return false;
+    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())     if (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision)      return true;
 
-    return true;
+    return false;
 }
 
 void Network::goForward()
