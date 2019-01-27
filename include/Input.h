@@ -14,11 +14,13 @@ class Input {
 private:
     double value;
     double weight;
+    double outdatedWeight = 0;
 public:
     Input(double value, double weight = -0.5 + ((double)rand()/RAND_MAX) * (0.5 + 0.5));
 
     double getValue();
     double getWeight();
+    double getOutdatedWeight();
     double getOutput();
 
     void setNewValue(double newValue);

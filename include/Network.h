@@ -15,8 +15,9 @@ class Network {
 private:
     float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 500;
+    int maxNumbersOfEpochs = 50000;
     float learnRate = 1.0;
+    float momentum = 1.0;
 
     shared_ptr<Layer> dataLayer;
     vector<shared_ptr<Layer>> hiddenLayers;

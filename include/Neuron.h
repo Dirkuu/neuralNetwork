@@ -24,7 +24,6 @@ private:
     void setError(double newError);
 
     //getters
-    double sum();
     void createBias(float biasWeight);
 public:
     Neuron(vector<shared_ptr<Input>> inputs, float biasWeight = std::numeric_limits<float>::quiet_NaN());
@@ -39,6 +38,7 @@ public:
     //getters
     shared_ptr<Input> getBias();
     vector<shared_ptr<Input>>& getInputs();
+    double getSum();
     double getOutput();
     double getError();
 

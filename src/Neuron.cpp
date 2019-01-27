@@ -41,7 +41,7 @@ void Neuron::setFutureError(double newFutureError) { this->futureError = newFutu
 
 
 //getters
-double Neuron::sum()
+double Neuron::getSum()
 {
     double sum = 0;
 
@@ -68,7 +68,7 @@ vector<shared_ptr<Input>>& Neuron::getInputs()
 
 double Neuron::getOutput()
 {
-    return 1.0 / (1.0 + exp(-this->sum() ));
+    return 1.0 / (1.0 + exp(-this->getSum() ));
 }
 
 double Neuron::getError()

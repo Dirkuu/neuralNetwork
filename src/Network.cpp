@@ -191,7 +191,7 @@ void Network::newWeightsTime()
 
             for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
             {
-                double newWeight = hiddenLayerNeuronInput->getWeight() + (this->learnRate * hiddenLayerNeuron->getError() * this->derivative(output));
+                double newWeight = hiddenLayerNeuronInput->getWeight() + (this->momentum * (hiddenLayerNeuronInput->getWeight() - hiddenLayerNeuronInput->getOutdatedWeight())) + (this->learnRate * hiddenLayerNeuron->getError() * this->derivative(output));
                 hiddenLayerNeuronInput->setNewWeight(newWeight);
             }
         }
@@ -205,7 +205,7 @@ void Network::newWeightsTime()
 
         for (shared_ptr<Input> outputLayerNeuronInput: outputLayerNeuron->getInputs())
         {
-            double newWeight = outputLayerNeuronInput->getWeight() + (this->learnRate * outputLayerNeuron->getError() * this->derivative(output));
+            double newWeight = outputLayerNeuronInput->getWeight() + (this->momentum * (outputLayerNeuronInput->getWeight() - outputLayerNeuronInput->getOutdatedWeight())) + (this->learnRate * outputLayerNeuron->getError() * this->derivative(output));
             outputLayerNeuronInput->setNewWeight(newWeight);
         }
     }
