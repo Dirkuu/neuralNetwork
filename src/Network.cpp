@@ -64,7 +64,7 @@ void Network::doUsefulThings()
     }
 
     cout << this->log();
-    cout << this->epoch << endl;
+    cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
 }
 
 bool Network::notWantedPrecision()
@@ -209,6 +209,27 @@ void Network::newWeightsTime()
             outputLayerNeuronInput->setNewWeight(newWeight);
         }
     }
+}
+
+float Network::globalError()
+{
+    if (this->outputLayer->getNeurons().size() == this->wantedOutputs.size())
+    {
+        int index = 0;
+        float temp,
+        sum = 0;
+
+        for (auto outputLayerNeuron: this->outputLayer->getNeurons())
+        {
+            temp = outputLayerNeuron->getOutput() - this->wantedOutputs.at(index);
+            sum += temp * temp;
+            ++index;
+        }
+
+        return sum;
+    }
+
+    return -1;
 }
 
 double Network::derivative(double sum)

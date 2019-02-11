@@ -31,6 +31,7 @@ private:
     void goForward();
     void backPropagation();
     void newWeightsTime();
+    float globalError();
     double derivative(double sum);
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 1.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
