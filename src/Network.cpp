@@ -5,11 +5,16 @@
 #include <Network.h>
 #include <iostream>
 #include <cmath>
+#include <fstream>
+#include <stdio.h>
 
 using namespace std;
 
 Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate, float momentum, float biasWeight): wantedOutputs(wantedOutputs), learnRate(learnRate), momentum(momentum)
 {
+    //delete file if exists
+    remove(this->globalErrorFileName.c_str());
+
     //dataLayer
     vector<shared_ptr<Neuron>> neuronsInDataLayer;
 
@@ -49,6 +54,8 @@ void Network::doUsefulThings()
     this->backPropagation();
     this->newWeightsTime();
 
+    if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
+
     ++this->epoch;
 
     for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
@@ -61,6 +68,8 @@ void Network::doUsefulThings()
         this->goForward();
         this->backPropagation();
         this->newWeightsTime();
+
+        if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
     }
 
     cout << this->log();
@@ -230,6 +239,14 @@ float Network::globalError()
     }
 
     return -1;
+}
+
+void Network::saveGlobalErrorToFile()
+{
+    ofstream globalError;
+    globalError.open(this->globalErrorFileName, ios::app);
+    globalError << "Epoch: " << this->epoch << "; Global error: " << this->globalError() << "\n";
+    globalError.close();
 }
 
 double Network::derivative(double sum)

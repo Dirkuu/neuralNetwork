@@ -18,6 +18,8 @@ private:
     int maxNumbersOfEpochs = 500;
     float learnRate = 1.0;
     float momentum = 1.0;
+    const int savesFrequencyInEpochs = 1;
+    string globalErrorFileName = "globalError.txt";
 
     shared_ptr<Layer> dataLayer;
     vector<shared_ptr<Layer>> hiddenLayers;
@@ -32,6 +34,7 @@ private:
     void backPropagation();
     void newWeightsTime();
     float globalError();
+    void saveGlobalErrorToFile();
     double derivative(double sum);
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 1.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
