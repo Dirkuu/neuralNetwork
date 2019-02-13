@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//TODO biasWeight
 Layer::Layer(vector<shared_ptr<Neuron>> neurons, float biasWeight): neurons(neurons) {}
 
 Layer::Layer(int numberOfNeurons, int numberOfInputs, float biasWeight)
