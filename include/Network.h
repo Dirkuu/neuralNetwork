@@ -8,6 +8,7 @@
 
 #include "Layer.h"
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -15,11 +16,14 @@ class Network {
 private:
     float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 500;
+    int maxNumbersOfEpochs = 400;
     float learnRate = 1.0;
     float momentum = 1.0;
-    const int savesFrequencyInEpochs = 1;
-    string globalErrorFileName = "globalError.txt";
+    const int savesFrequencyInEpochs = 10;
+    const string globalErrorFileName = "../globalError.txt";
+    const string dataFileName = "../iris.data";
+
+    vector<pair<queue<double>, string>> data;
 
     shared_ptr<Layer> dataLayer;
     vector<shared_ptr<Layer>> hiddenLayers;
@@ -27,6 +31,8 @@ private:
 
 
     vector<double> wantedOutputs;
+
+    void learnMode();
 
     void doUsefulThings();
     bool notWantedPrecision();
@@ -37,15 +43,19 @@ private:
     void saveGlobalErrorToFile();
     double derivative(double sum);
     bool setNewWantedOutputs(vector<double>& newWantedOutputs);
+    void mySubstr(string str, string delimiter, queue<string>& subStrings);
+    void convertStringLineToObjects(string line);
+    void copyDataFromFileToVariableThisData();
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 1.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
     //setters
-    bool setNewInputs(vector<double> newValues);
+    bool setNewInputs(queue<double> newValues);
     bool setNewWantedOutputsByIrisType(string irisType);
 
     //getters
     string log();
+    string allOutputs();
 };
 
 #endif //NEURALNETWORK_NETWORK_H

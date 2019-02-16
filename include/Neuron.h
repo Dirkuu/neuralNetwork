@@ -19,6 +19,7 @@ private:
     vector<shared_ptr<Input>> inputs;
     double currentError;
     double futureError;
+    double output;
 
     //setters
     void setError(double newError);

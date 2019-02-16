@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE(NeuronTest)
         inputs.emplace_back(make_shared<Input>(58));
         inputs.emplace_back(make_shared<Input>(58));
 
-        shared_ptr<Neuron> neuron = make_shared<Neuron>(inputs, make_shared<Input>(54));
+        shared_ptr<Neuron> neuron = make_shared<Neuron>(inputs, 54);
 
         //normal inputs test
         for (auto input : neuron->getInputs())
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_SUITE(NeuronTest)
         }
 
         //bias test
-        BOOST_CHECK_EQUAL(neuron->getBias()->getValue(), 54);
+        BOOST_CHECK_EQUAL(neuron->getBias()->getWeight(), 54);
     }
 
     BOOST_AUTO_TEST_CASE(NeuronIntConstructorTestWithoutBias)

@@ -16,7 +16,7 @@ int main (int argc, char *argv[])
     srand(time(0));
 
     vector<shared_ptr<Input>> inputs;
-    inputs.emplace_back(make_shared<Input>(1, 1));
+    inputs.emplace_back(make_shared<Input>(0, 1));
     inputs.emplace_back(make_shared<Input>(0, 1));
     inputs.emplace_back(make_shared<Input>(0, 1));
     inputs.emplace_back(make_shared<Input>(0, 1));
@@ -25,7 +25,6 @@ int main (int argc, char *argv[])
     numbersOfNeuronsInHiddenLayers.emplace_back(2);
 
     vector<double> wantedOutputs;
-    wantedOutputs.emplace_back(1);
     wantedOutputs.emplace_back(0);
     wantedOutputs.emplace_back(0);
     wantedOutputs.emplace_back(0);

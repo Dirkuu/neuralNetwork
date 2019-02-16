@@ -7,6 +7,7 @@
 #include <cmath>
 #include <fstream>
 #include <stdio.h>
+#include <queue>
 
 using namespace std;
 
@@ -40,24 +41,94 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
     this->outputLayer = make_shared<Layer>(wantedOutputs.size(), numbersOfInputs);
 
 
-    this->doUsefulThings();
-}
-
-void Network::doUsefulThings()
-{
     //cout << this->log();
 
 
+    this->copyDataFromFileToVariableThisData();
 
 
-    this->goForward();
-    this->backPropagation();
-    this->newWeightsTime();
+
+
+
+
+
+    //First iteration
+    for (auto pair: this->data)
+    {
+        cout << this->log();
+        cout << this->allOutputs();
+        this->setNewInputs(pair.first);
+        this->setNewWantedOutputsByIrisType(pair.second);
+
+        this->goForward();
+        this->backPropagation();
+        this->newWeightsTime();
+    }
 
     if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
 
     ++this->epoch;
 
+    this->learnMode();
+
+
+    queue<double> q;
+    q.push(5.1);
+    q.push(3.5);
+    q.push(1.4);
+    q.push(0.2);
+
+    this->setNewInputs(q);
+    this->setNewWantedOutputsByIrisType("Iris-setosa");
+    //cout << this->log();
+    this->goForward();
+    cout << this->allOutputs();
+
+    q.pop();
+    q.pop();
+    q.pop();
+    q.pop();
+    q.push(7.0);
+    q.push(3.2);
+    q.push(4.7);
+    q.push(1.4);
+
+    this->setNewInputs(q);
+    this->setNewWantedOutputsByIrisType("Iris-versicolor");
+    //cout << this->log();
+    this->goForward();
+    cout << this->allOutputs();
+
+}
+
+void Network::learnMode()
+{
+    for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
+    {
+//        cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
+//        cout << this->allOutputs();
+        for (auto pair: this->data)
+        {
+//            cout << this->log();
+//            cout << this->allOutputs();
+            this->setNewInputs(pair.first);
+            this->setNewWantedOutputsByIrisType(pair.second);
+
+            this->goForward();
+            this->backPropagation();
+            this->newWeightsTime();
+        }
+
+        if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
+    }
+
+    cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
+    cout << this->log();
+    cout << this->allOutputs();
+}
+
+void Network::doUsefulThings()
+{
     for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
     {
         //cout << this->log();
@@ -99,7 +170,7 @@ void Network::goForward()
 
                 for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
                 {
-                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getInputs().at(0)->getValue());
+                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());//->getInputs().at(0)->getValue());
 
                     ++numberOfInput;
                 }
@@ -245,7 +316,9 @@ void Network::saveGlobalErrorToFile()
 {
     ofstream globalError;
     globalError.open(this->globalErrorFileName, ios::app);
+
     globalError << "Epoch: " << this->epoch << "; Global error: " << this->globalError() << "\n";
+
     globalError.close();
 }
 
@@ -254,6 +327,66 @@ double Network::derivative(double sum)
     return sum*(1 - sum);
 }
 
+void Network::mySubstr(string str, string delimiter, queue<string>& subStrings)
+{
+    size_t pos = 0;
+    std::string token;
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        token = str.substr(0, pos);
+        subStrings.emplace(token);
+        str.erase(0, pos + delimiter.length());
+    }
+    subStrings.emplace(str);
+}
+
+void Network::convertStringLineToObjects(string line)
+{
+    queue<double> newInputsValues;
+    queue<string> subStrings;
+
+    if (line != "")             this->mySubstr(line, ",", subStrings);
+
+    while (!subStrings.empty())
+    {
+        switch(subStrings.front().at(0)) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                newInputsValues.emplace(stod(subStrings.front()));
+                subStrings.pop();
+                break;
+            default:
+                data.emplace_back(make_pair(newInputsValues, subStrings.front()));
+                subStrings.pop();
+
+                break;
+
+        }
+    }
+}
+
+void Network::copyDataFromFileToVariableThisData()
+{
+    ifstream irisDataFile;
+    irisDataFile.open(this->dataFileName);
+    string line;
+
+    while (! irisDataFile.eof())
+    {
+        getline(irisDataFile, line);
+
+        convertStringLineToObjects(line);
+    }
+
+    irisDataFile.close();
+}
 
 
 
@@ -261,7 +394,7 @@ double Network::derivative(double sum)
 //Setters
 bool Network::setNewWantedOutputs(vector<double>& newWantedOutputs)
 {
-    if (this->wantedOutputs.size() == newWantedOutputs.size())
+    if (true)
     {
         this->wantedOutputs.clear();
 
@@ -278,17 +411,14 @@ bool Network::setNewWantedOutputs(vector<double>& newWantedOutputs)
     }
 }
 
-bool Network::setNewInputs(vector<double> newValues)
+bool Network::setNewInputs(queue<double> newValues)
 {
     if (this->dataLayer->getNeurons().size() == newValues.size())
     {
-        int index = 0;
-
         for(shared_ptr<Neuron> dataNeuron: this->dataLayer->getNeurons())
         {
-            dataNeuron->getInputs().at(0)->setNewValue(newValues.at(index));
-
-            ++index;
+            dataNeuron->getInputs().at(0)->setNewValue(newValues.front());
+            newValues.pop();
         }
 
         return true;
@@ -344,6 +474,25 @@ string Network::log()
     }
 
     retString += this->outputLayer->toString() +"\n";
+
+    return retString;
+}
+
+string Network::allOutputs ()
+{
+    string retString;
+
+    retString = "Wanted outputs: ";
+    retString += to_string(this->wantedOutputs.at(0)) + " ";
+    retString += to_string(this->wantedOutputs.at(1)) + " ";
+    retString += to_string(this->wantedOutputs.at(2)) + "\n";
+
+    retString += "Real outputs:   ";
+    retString += to_string(this->outputLayer->getNeurons().at(0)->getOutput()) + " ";
+    retString += to_string(this->outputLayer->getNeurons().at(1)->getOutput()) + " ";
+    retString += to_string(this->outputLayer->getNeurons().at(2)->getOutput()) + "\n";
+
+    retString += "\n\n";
 
     return retString;
 }
