@@ -31,10 +31,10 @@ int main (int argc, char *argv[])
     wantedOutputs.emplace_back(0);
 
     //
-    if (argc == 4)                              shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]), atof(argv[2]), atof(argv[3]));
-    else if (argc == 3)                              shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]), atof(argv[2]));
-    else if (argc == 2)                         shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]));
-    else                                        shared_ptr<Network> network = make_shared<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs);
+    if (argc == 4)                              unique_ptr<Network> network = make_unique<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]), atof(argv[2]), atof(argv[3]));
+    else if (argc == 3)                         unique_ptr<Network> network = make_unique<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]), atof(argv[2]));
+    else if (argc == 2)                         unique_ptr<Network> network = make_unique<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs, atof(argv[1]));
+    else                                        unique_ptr<Network> network = make_unique<Network>(inputs, numbersOfNeuronsInHiddenLayers, wantedOutputs);
 
 
 

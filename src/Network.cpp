@@ -256,7 +256,78 @@ double Network::derivative(double sum)
 
 
 
-//Gettery
+
+
+//Setters
+bool Network::setNewWantedOutputs(vector<double>& newWantedOutputs)
+{
+    if (this->wantedOutputs.size() == newWantedOutputs.size())
+    {
+        this->wantedOutputs.clear();
+
+        for (double newWantedOutput: newWantedOutputs)
+        {
+            this->wantedOutputs.emplace_back(newWantedOutput);
+        }
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Network::setNewInputs(vector<double> newValues)
+{
+    if (this->dataLayer->getNeurons().size() == newValues.size())
+    {
+        int index = 0;
+
+        for(shared_ptr<Neuron> dataNeuron: this->dataLayer->getNeurons())
+        {
+            dataNeuron->getInputs().at(0)->setNewValue(newValues.at(index));
+
+            ++index;
+        }
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Network::setNewWantedOutputsByIrisType(string irisType)
+{
+    vector<double> newWantedOutputs;
+
+    if (irisType == "Iris-setosa")
+    {
+        newWantedOutputs.emplace_back(1);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+    }
+    else if (irisType == "Iris-versicolor")
+    {
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(1);
+        newWantedOutputs.emplace_back(0);
+    }
+    else if (irisType == "Iris-virginica")
+    {
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(1);
+    }
+
+    return this->setNewWantedOutputs(newWantedOutputs);
+}
+
+
+
+//Getters
 //string Network::toString()
 //{
 //    return "This network have "+ to_string(this->layers.size()) +" layers";

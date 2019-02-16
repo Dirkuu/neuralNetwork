@@ -36,10 +36,13 @@ private:
     float globalError();
     void saveGlobalErrorToFile();
     double derivative(double sum);
+    bool setNewWantedOutputs(vector<double>& newWantedOutputs);
 public:
     Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 1.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
-
+    //setters
+    bool setNewInputs(vector<double> newValues);
+    bool setNewWantedOutputsByIrisType(string irisType);
 
     //getters
     string log();

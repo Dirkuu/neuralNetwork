@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 #lista plików źródłowych
 set(SOURCE_FILES
-        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp)
+        src/main.cpp src/Input.cpp src/Neuron.cpp src/Layer.cpp src/Network.cpp src/filesManager.cpp)
 
 add_library(Library ${SOURCE_FILES})
 set_target_properties(Library PROPERTIES LINKER_LANGUAGE CXX)
@@ -79,7 +79,7 @@ add_test(Test LayerTest
 
 
 #Wszystkie testy
-set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp test/NeuronTest.cpp test/LayerTest.cpp)
+set(SOURCE_TEST_FILES test/master.cpp test/InputTest.cpp test/NeuronTest.cpp test/LayerTest.cpp test/NetworkTest.cpp)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(Tests ${SOURCE_TEST_FILES})
