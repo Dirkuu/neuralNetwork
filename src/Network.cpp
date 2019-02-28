@@ -156,43 +156,26 @@ bool Network::notWantedPrecision()
 
 void Network::goForward()
 {
+    //for the first iteration, previous layer is data layer
     vector<shared_ptr<Neuron>> previousLayerNeurons = this->dataLayer->getNeurons();
 
-    bool firstHiddenLayerFlag = true;
     //hiddenLayers forward
     for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
     {
-        if (firstHiddenLayerFlag)
+        for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
         {
-            for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
+            int numberOfInput = 0;
+
+            for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
             {
-                int numberOfInput = 0;
+                hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());//->getInputs().at(0)->getValue());
 
-                for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
-                {
-                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());//->getInputs().at(0)->getValue());
-
-                    ++numberOfInput;
-                }
-            }
-
-            firstHiddenLayerFlag = false;
-        }
-        else
-        {
-            for (shared_ptr<Neuron> hiddenLayerNeuron: hiddenLayer->getNeurons())
-            {
-                int numberOfInput = 0;
-
-                for (shared_ptr<Input> hiddenLayerNeuronInput: hiddenLayerNeuron->getInputs())
-                {
-                    hiddenLayerNeuronInput->setNewValue(previousLayerNeurons.at(numberOfInput)->getOutput());
-
-                    ++numberOfInput;
-                }
+                ++numberOfInput;
             }
         }
 
+
+        //for next iteration, previous layer will be current hidden layer
         previousLayerNeurons = hiddenLayer->getNeurons();
     }
 
@@ -224,36 +207,33 @@ void Network::backPropagation()
 
 
 
-    //hiddenLayers
+    //the loop below will calculate errors and layers will remember them
+    //for first iteration, the previous layer is output layer
     vector<shared_ptr<Neuron>> previousLayerNeurons = this->outputLayer->getNeurons();
-    bool lastHiddenLayerFlag = true;
 
     for (auto hiddenLayerFromEnd = rbegin(this->hiddenLayers); hiddenLayerFromEnd != rend(this->hiddenLayers); ++hiddenLayerFromEnd)
     {
         auto& hiddenLayer = *hiddenLayerFromEnd;
         numberOfNeuron = 0;
 
-        if (lastHiddenLayerFlag)
+
+        for (const shared_ptr<Neuron>& hiddenLayerFromEndNeuron: hiddenLayer->getNeurons())
         {
-            for (shared_ptr<Neuron> hiddenLayerFromEndNeuron: hiddenLayer->getNeurons())
+            double newError = 0;
+            for (const shared_ptr<Neuron>& previousLayerNeuron: previousLayerNeurons)
             {
-                double newError = 0;
-                for (shared_ptr<Neuron> previousLayerNeuron: previousLayerNeurons)
-                {
-                    newError += previousLayerNeuron->getInputs().at(numberOfNeuron)->getWeight() * previousLayerNeuron->getError();
-                }
-
-                hiddenLayerFromEndNeuron->setFutureError(newError);
-
-                ++numberOfNeuron;
+                newError += previousLayerNeuron->getInputs().at(numberOfNeuron)->getWeight() * previousLayerNeuron->getError();
             }
-        }
-        else
-        {
 
+            hiddenLayerFromEndNeuron->setFutureError(newError);
+
+            ++numberOfNeuron;
         }
+        //and for future interation, previousLayer is current Layer
+        previousLayerNeurons = hiddenLayer->getNeurons();
     }
 
+    //now errors will really update
     for (shared_ptr<Layer> hiddenLayer: this->hiddenLayers)
     {
         hiddenLayer->updateErrors();

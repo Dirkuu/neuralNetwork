@@ -16,7 +16,7 @@ class Network {
 private:
     float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 400;
+    int maxNumbersOfEpochs = 4;
     float learnRate = 1.0;
     float momentum = 1.0;
     const int savesFrequencyInEpochs = 10;

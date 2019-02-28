@@ -22,7 +22,8 @@ int main (int argc, char *argv[])
     inputs.emplace_back(make_shared<Input>(0, 1));
 
     vector<int> numbersOfNeuronsInHiddenLayers;
-    numbersOfNeuronsInHiddenLayers.emplace_back(2);
+    numbersOfNeuronsInHiddenLayers.emplace_back(3);
+    numbersOfNeuronsInHiddenLayers.emplace_back(5);
 
     vector<double> wantedOutputs;
     wantedOutputs.emplace_back(0);
