@@ -56,12 +56,13 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
     for (auto pair: this->data)
     {
         this->setNewInputs(pair.first);
-        this->setNewWantedOutputsByIrisType(pair.second);
+        this->setNewWantedOutputsByStringInput(pair.second);
 
         this->goForward();
         this->backPropagation();
 
         //If logs will be after newWeightsTime(), outputs from previous neurons will be diffrent from values of the next neurons
+        cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
         //cout << this->log();
         cout << this->allOutputs();
 
@@ -76,30 +77,32 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 
     queue<double> q;
-    q.push(5.1);
-    q.push(3.5);
-    q.push(1.4);
-    q.push(0.2);
+    q.push(1);
+    q.push(0);
+    q.push(0);
+    q.push(0);
 
     this->setNewInputs(q);
-    this->setNewWantedOutputsByIrisType("Iris-setosa");
+    this->setNewWantedOutputsByStringInput("i1000");
     //cout << this->log();
     this->goForward();
+    cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
     cout << this->allOutputs();
 
     q.pop();
     q.pop();
     q.pop();
     q.pop();
-    q.push(7.0);
-    q.push(3.2);
-    q.push(4.7);
-    q.push(1.4);
+    q.push(0);
+    q.push(0);
+    q.push(1);
+    q.push(0);
 
     this->setNewInputs(q);
-    this->setNewWantedOutputsByIrisType("Iris-versicolor");
+    this->setNewWantedOutputsByStringInput("i0010");
     //cout << this->log();
     this->goForward();
+    cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
     cout << this->allOutputs();
 
 }
@@ -113,12 +116,16 @@ void Network::learnMode()
         for (auto pair: this->data)
         {
             this->setNewInputs(pair.first);
-            this->setNewWantedOutputsByIrisType(pair.second);
+            this->setNewWantedOutputsByStringInput(pair.second);
 
             this->goForward();
             this->backPropagation();
-//            cout << this->log();
-//            cout << this->allOutputs();
+
+            //If logs will be after newWeightsTime(), outputs from previous neurons will be diffrent from values of the next neurons
+            cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
+            //cout << this->log();
+            cout << this->allOutputs();
+
             this->newWeightsTime();
         }
 
@@ -126,7 +133,7 @@ void Network::learnMode()
     }
 
     cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
-    cout << this->log();
+    //cout << this->log();
     cout << this->allOutputs();
 }
 
@@ -152,7 +159,12 @@ void Network::doUsefulThings()
 
 bool Network::notWantedPrecision()
 {
-    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())     if (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision)      return true;
+    for (shared_ptr<Neuron> outputLayerNeuron: this->outputLayer->getNeurons())
+    {
+//        cout << outputLayerNeuron->getError() << "\n";
+//        cout << 1.0 - fabs(outputLayerNeuron->getError()) << "<" << this->wantedPrecision << "=" << (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision) << "\n";
+        if (1.0 - fabs(outputLayerNeuron->getError()) < this->wantedPrecision)      return true;
+    }
 
     return false;
 }
@@ -412,24 +424,52 @@ bool Network::setNewInputs(queue<double> newValues)
     }
 }
 
-bool Network::setNewWantedOutputsByIrisType(string irisType)
+bool Network::setNewWantedOutputsByStringInput(string wantedOutput)
 {
     vector<double> newWantedOutputs;
 
-    if (irisType == "Iris-setosa")
+    if (wantedOutput == "Iris-setosa")
     {
         newWantedOutputs.emplace_back(1);
         newWantedOutputs.emplace_back(0);
         newWantedOutputs.emplace_back(0);
     }
-    else if (irisType == "Iris-versicolor")
+    else if (wantedOutput == "Iris-versicolor")
     {
         newWantedOutputs.emplace_back(0);
         newWantedOutputs.emplace_back(1);
         newWantedOutputs.emplace_back(0);
     }
-    else if (irisType == "Iris-virginica")
+    else if (wantedOutput == "Iris-virginica")
     {
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(1);
+    }
+    else if (wantedOutput == "i1000")
+    {
+        newWantedOutputs.emplace_back(1);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+    }
+    else if (wantedOutput == "i0100")
+    {
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(1);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+    }
+    else if (wantedOutput == "i0010")
+    {
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(0);
+        newWantedOutputs.emplace_back(1);
+        newWantedOutputs.emplace_back(0);
+    }
+    else if (wantedOutput == "i0001")
+    {
+        newWantedOutputs.emplace_back(0);
         newWantedOutputs.emplace_back(0);
         newWantedOutputs.emplace_back(0);
         newWantedOutputs.emplace_back(1);
@@ -468,12 +508,14 @@ string Network::allOutputs ()
     retString = "Wanted outputs: ";
     retString += to_string(this->wantedOutputs.at(0)) + " ";
     retString += to_string(this->wantedOutputs.at(1)) + " ";
-    retString += to_string(this->wantedOutputs.at(2)) + "\n";
+    retString += to_string(this->wantedOutputs.at(2)) + " ";
+    retString += to_string(this->wantedOutputs.at(3)) + "\n";
 
     retString += "Real outputs:   ";
     retString += to_string(this->outputLayer->getNeurons().at(0)->getOutput()) + " ";
     retString += to_string(this->outputLayer->getNeurons().at(1)->getOutput()) + " ";
-    retString += to_string(this->outputLayer->getNeurons().at(2)->getOutput()) + "\n";
+    retString += to_string(this->outputLayer->getNeurons().at(2)->getOutput()) + " ";
+    retString += to_string(this->outputLayer->getNeurons().at(3)->getOutput()) + "\n";
 
     retString += "\n\n";
 

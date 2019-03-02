@@ -16,12 +16,12 @@ class Network {
 private:
     float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 4;
-    float learnRate = 1.0;
-    float momentum = 1.0;
+    int maxNumbersOfEpochs = 40000;
+    float learnRate = 0.6;
+    float momentum = 0.0;
     const int savesFrequencyInEpochs = 10;
     const string globalErrorFileName = "../globalError.txt";
-    const string dataFileName = "../iris.data";
+    const string dataFileName = "../test.data";
 
     vector<pair<queue<double>, string>> data;
 
@@ -51,7 +51,7 @@ public:
 
     //setters
     bool setNewInputs(queue<double> newValues);
-    bool setNewWantedOutputsByIrisType(string irisType);
+    bool setNewWantedOutputsByStringInput(string wantedOutput);
 
     //getters
     string log();
