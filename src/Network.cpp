@@ -55,13 +55,16 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
     //First iteration
     for (auto pair: this->data)
     {
-        cout << this->log();
-        cout << this->allOutputs();
         this->setNewInputs(pair.first);
         this->setNewWantedOutputsByIrisType(pair.second);
 
         this->goForward();
         this->backPropagation();
+
+        //If logs will be after newWeightsTime(), outputs from previous neurons will be diffrent from values of the next neurons
+        //cout << this->log();
+        cout << this->allOutputs();
+
         this->newWeightsTime();
     }
 
@@ -109,13 +112,13 @@ void Network::learnMode()
 //        cout << this->allOutputs();
         for (auto pair: this->data)
         {
-//            cout << this->log();
-//            cout << this->allOutputs();
             this->setNewInputs(pair.first);
             this->setNewWantedOutputsByIrisType(pair.second);
 
             this->goForward();
             this->backPropagation();
+//            cout << this->log();
+//            cout << this->allOutputs();
             this->newWeightsTime();
         }
 
