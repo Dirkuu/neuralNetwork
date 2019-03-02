@@ -16,7 +16,7 @@ class Network {
 private:
     float wantedPrecision = 0.9; // *100%
     int epoch = 0;
-    int maxNumbersOfEpochs = 40000;
+    int maxNumbersOfEpochs = 400;
     float learnRate = 0.6;
     float momentum = 0.0;
     const int savesFrequencyInEpochs = 10;
@@ -47,7 +47,7 @@ private:
     void convertStringLineToObjects(string line);
     void copyDataFromFileToVariableThisData();
 public:
-    Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 1.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
+    Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbersOfNeuronsInHiddenLayers, vector<double> wantedOutputs, float learnRate = 1.0, float momentum = 0.0, float biasWeight = std::numeric_limits<float>::quiet_NaN());
 
     //setters
     bool setNewInputs(queue<double> newValues);

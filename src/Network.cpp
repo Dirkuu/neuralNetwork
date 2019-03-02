@@ -8,6 +8,8 @@
 #include <fstream>
 #include <stdio.h>
 #include <queue>
+//#include <cstdlib>
+#include <unordered_set>
 
 using namespace std;
 
@@ -50,29 +52,6 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 
 
-
-
-    //First iteration
-    for (auto pair: this->data)
-    {
-        this->setNewInputs(pair.first);
-        this->setNewWantedOutputsByStringInput(pair.second);
-
-        this->goForward();
-        this->backPropagation();
-
-        //If logs will be after newWeightsTime(), outputs from previous neurons will be diffrent from values of the next neurons
-        cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
-        //cout << this->log();
-        cout << this->allOutputs();
-
-        this->newWeightsTime();
-    }
-
-    if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
-
-    ++this->epoch;
-
     this->learnMode();
 
 
@@ -109,14 +88,57 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 void Network::learnMode()
 {
+    unordered_set<int> dataIndexes;
+    int temp;
+    //<First iteration>
+    for (int i = 0; i < this->data.size(); ++i)
+    {
+        do
+        {
+            temp = (int)(rand() % this->data.size());
+        }
+        while (!dataIndexes.emplace(temp).second);
+    }
+
+    for (int indexOfPair: dataIndexes)
+    {
+        this->setNewInputs(this->data.at(indexOfPair).first);
+        this->setNewWantedOutputsByStringInput(this->data.at(indexOfPair).second);
+
+        this->goForward();
+        this->backPropagation();
+
+        //If logs will be after newWeightsTime(), outputs from previous neurons will be diffrent from values of the next neurons
+        cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
+        //cout << this->log();
+        cout << this->allOutputs();
+
+        this->newWeightsTime();
+    }
+    if (this->epoch % this->savesFrequencyInEpochs == 0)    this->saveGlobalErrorToFile();
+    this->epoch++;
+    //</First iteration>
+
     for (this->epoch; this->epoch < this->maxNumbersOfEpochs && this->notWantedPrecision(); ++this->epoch)
     {
 //        cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
 //        cout << this->allOutputs();
-        for (auto pair: this->data)
+
+
+        dataIndexes.clear();
+        for (int i = 0; i < this->data.size(); ++i)
         {
-            this->setNewInputs(pair.first);
-            this->setNewWantedOutputsByStringInput(pair.second);
+            do
+            {
+                temp = (int)(rand() % this->data.size());
+            }
+            while (!dataIndexes.emplace(temp).second);
+        }
+
+        for (int indexOfPair: dataIndexes)
+        {
+            this->setNewInputs(this->data.at(indexOfPair).first);
+            this->setNewWantedOutputsByStringInput(this->data.at(indexOfPair).second);
 
             this->goForward();
             this->backPropagation();
