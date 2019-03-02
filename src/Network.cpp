@@ -40,7 +40,7 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
 
     //outputLayer
-    this->outputLayer = make_shared<Layer>(wantedOutputs.size(), numbersOfInputs);
+    this->outputLayer = make_shared<Layer>(wantedOutputs.size(), numbersOfInputs, biasWeight);
 
 
     //cout << this->log();
@@ -63,6 +63,22 @@ Network::Network(vector<shared_ptr<Input>> inputsForDataLayer, vector<int> numbe
 
     this->setNewInputs(q);
     this->setNewWantedOutputsByStringInput("i1000");
+    //cout << this->log();
+    this->goForward();
+    cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
+    cout << this->allOutputs();
+
+    q.pop();
+    q.pop();
+    q.pop();
+    q.pop();
+    q.push(0);
+    q.push(1);
+    q.push(0);
+    q.push(0);
+
+    this->setNewInputs(q);
+    this->setNewWantedOutputsByStringInput("i0100");
     //cout << this->log();
     this->goForward();
     cout << this->epoch << endl << "Global error: " << this->globalError() << endl;
