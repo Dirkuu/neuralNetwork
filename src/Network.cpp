@@ -307,6 +307,11 @@ void Network::newWeightsTime()
                 double newWeight = hiddenLayerNeuronInput->getWeight() + (this->momentum * (hiddenLayerNeuronInput->getWeight() - hiddenLayerNeuronInput->getOutdatedWeight())) + (this->learnRate * hiddenLayerNeuron->getError() * this->derivative(output));
                 hiddenLayerNeuronInput->setNewWeight(newWeight);
             }
+
+            if (hiddenLayerNeuron->getBias() != nullptr)
+            {
+                cout << "Jest bias!\n";
+            }
         }
     }
 

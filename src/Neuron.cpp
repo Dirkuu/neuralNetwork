@@ -52,7 +52,6 @@ double Neuron::getSum()
 
     if (this->bias != nullptr)      sum += this->bias->getValue() * this->bias->getWeight();
 
-
     return sum;
 }
 
